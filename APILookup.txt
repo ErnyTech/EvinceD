@@ -1,0 +1,133 @@
+#
+# This file is part of EvinceD.
+# EvinceD is based on GtkD.
+#
+# EvinceD is free software; you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License
+# as published by the Free Software Foundation; either version 3
+# of the License, or (at your option) any later version, with
+# some exceptions, please read the COPYING file.
+#
+# EvinceD is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with EvinceD; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110, USA
+#
+
+
+# define the license to use
+license: start
+/*
+ * This file is part of EvinceD.
+ * EvinceD is based on GtkD.
+ *
+ * EvinceD is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License
+ * as published by the Free Software Foundation; either version 3
+ * of the License, or (at your option) any later version, with
+ * some exceptions, please read the COPYING file.
+ *
+ * EvinceD is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with EvinceD; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110, USA
+ */
+
+// generated automatically - do not change
+// find conversion definition on APILookup.txt
+
+
+license: end
+
+includeComments: y
+outputRoot: source
+
+
+
+###########################################################
+### Define Evince Documennt
+###########################################################
+
+wrap: evince.document
+file: EvinceDocument-3.0.gir
+
+### Copy Version file
+copy: evince
+
+### Generate global EvinceDocument object
+move: backends_manager_get_all_types_info EvinceDocument
+move: backends_manager_get_document EvinceDocument
+move: backends_manager_get_document_module_name EvinceDocument
+move: backends_manager_get_document_type_info EvinceDocument
+move: file_compress EvinceDocument
+move: file_copy_metadata EvinceDocument
+move: file_get_mime_type EvinceDocument
+move: file_is_temp EvinceDocument
+move: file_uncompress EvinceDocument
+move: mkdtemp EvinceDocument
+move: mkstemp EvinceDocument
+move: mkstemp_file EvinceDocument
+move: get_locale_dir EvinceDocument
+move: init EvinceDocument
+move: rect_cmp EvinceDocument
+move: shutdown EvinceDocument
+move: tmp_file_unlink EvinceDocument
+move: tmp_filename_unlink EvinceDocument
+move: tmp_uri_unlink EvinceDocument
+move: xfer_uri_simple EvinceDocument
+
+### Fix conflict with atk.c.types.Layer
+struct: Layer
+class: EvinceLayer
+
+### Fix issue in generator
+struct: LinkDest
+noCode: get_left
+noCode: get_top
+noCode: get_zoom
+code: start
+	/** */
+	public double getLeft(int* changeLeft)
+	{
+		return ev_link_dest_get_left(evLinkDest, changeLeft);
+	}
+	
+	/** */
+	public double getTop(int* changeTop)
+	{
+		return ev_link_dest_get_top(evLinkDest, changeTop);
+	}
+	
+	/** */
+	public double getZoom(int* changeZoom)
+	{
+		return ev_link_dest_get_zoom(evLinkDest, changeZoom);
+	}
+code: end
+
+
+
+###########################################################
+### Define Evince View
+###########################################################
+
+wrap: evince.view
+file: EvinceView-3.0.gir
+
+### Generate global EvinceView object
+move: stock_icons_init EvinceView
+move: stock_icons_set_screen EvinceView
+move: stock_icons_shutdown EvinceView
+
+### Don't generate code for ev_view_find_changed, since bindings generator are broken
+### I don't care about because ev_view_find_changed is deprecated
+struct: View
+noCode: find_changed

@@ -1,0 +1,13 @@
+{
+    "name": "evinced",
+    "description": "D bindings to Evince (GNOME's Document viewer)",
+    "copyright": "Copyright © 2020, Ernesto Castellotti",
+	"license": "LGPL v3.0",
+	"authors": [
+		"Ernesto Castellotti"
+	],
+	"targetType": "library",
+	"dependencies": {
+        	"gtk-d" : "~>3.9.0"
+	}
+}

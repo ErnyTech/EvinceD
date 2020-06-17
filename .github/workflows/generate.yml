@@ -1,0 +1,52 @@
+name: Generate EvinceD
+on: [push]
+
+jobs:
+    test:
+        name: Generate EvinceD
+        env:
+            VERSION: 3.5.36
+        runs-on: ubuntu-latest
+        container:
+          image: archlinux:latest
+        steps:
+
+            - name: Setup env
+              run: |
+                pacman -Syyu --noconfirm
+                pacman -S git --noconfirm
+                pacman -S ldc --noconfirm
+                pacman -S gtkd gobject-introspection gir-to-d --noconfirm
+                pacman -S evince --noconfirm
+            
+            - name: Clone EvinceD
+              uses: actions/checkout@v2
+
+            - name: Generate EvinceD
+              run: |
+                rm -rf source/*
+                output=$(girtod --use-runtime-linker --print-free)
+                
+                # Check if all no parent function are generate
+                if [ "${output}" != "copying file [evince] to [source/evince]" ]; then false; fi
+                
+                # Try build all source generated files, needs to finds generator issue
+                allsrcfiles=$(find source/ -type f -name '*.d' | xargs)
+                ldc ${allsrcfiles} --o- -main -I/usr/include/d/gtkd-3 -L=-lgtkd-3
+                
+            - name: Check version
+              run: |
+                cp .github/versioncheck.d.ori .github/versioncheck.d
+                echo 'enum VERSION = "${{ env.VERSION }}";' >> .github/versioncheck.d
+                ldc -i=evince -I=source -I/usr/include/d/gtkd-3 -run .github/versioncheck.d
+                rm .github/versioncheck.d
+                
+            - name: Push generated EvinceD to GitHub
+              uses: stefanzweifel/git-auto-commit-action@v4
+              with:
+                commit_message: 'Generate EvinceD v${{ env.VERSION }}'
+                commit_user_email: mail@ernestocastellotti.it
+                commit_user_name: Ernesto Castellotti (BOT)
+                branch: master
+                repository: .
+                tagging_message: v${{ env.VERSION }}
