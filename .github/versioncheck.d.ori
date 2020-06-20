@@ -5,7 +5,7 @@ void main() {
     import std.conv : to;
     
     assert(Version.getMajorVersion == VERSION.split(".")[0].to!uint);
-    assert(Version.getMicroVersion == VERSION.split(".")[1].to!uint);
-    assert(Version.getMinorVersion == VERSION.split(".")[2].to!uint);
+    assert(Version.getMinorVersion == VERSION.split(".")[1].to!uint);
+    assert(Version.getMicroVersion == VERSION.split(".")[2].to!uint);
 }
 
