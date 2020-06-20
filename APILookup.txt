@@ -95,21 +95,42 @@ noCode: get_top
 noCode: get_zoom
 code: start
 	/** */
-	public double getLeft(int* changeLeft)
+	public double getLeft(bool* changeLeft)
 	{
-		return ev_link_dest_get_left(evLinkDest, changeLeft);
+                int c_changeLeft;
+		auto result = ev_link_dest_get_left(evLinkDest, &c_changeLeft);
+
+                if (changeLeft) {
+                        *changeLeft = c_changeLeft == 0 ? false : true;
+                }
+
+                return result;
 	}
 	
 	/** */
-	public double getTop(int* changeTop)
+	public double getTop(bool* changeTop)
 	{
-		return ev_link_dest_get_top(evLinkDest, changeTop);
+                int c_changeTop;
+		auto result = ev_link_dest_get_top(evLinkDest, &c_changeTop);
+
+                if (changeTop) {
+                        *changeTop = c_changeTop == 0 ? false : true;
+                }
+
+                return result;
 	}
 	
 	/** */
-	public double getZoom(int* changeZoom)
+	public double getZoom(bool* changeZoom)
 	{
-		return ev_link_dest_get_zoom(evLinkDest, changeZoom);
+                int c_changeZoom;
+		auto result = ev_link_dest_get_zoom(evLinkDest, &c_changeZoom);
+  
+                if (changeZoom) {
+                        *changeZoom = c_changeZoom == 0 ? false : true;
+                }
+
+                return result;
 	}
 code: end
 
