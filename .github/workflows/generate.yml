@@ -5,7 +5,7 @@ jobs:
     test:
         name: Generate EvinceD
         env:
-            VERSION: 3.36.6
+            VERSION: 3.38.0
         runs-on: ubuntu-latest
         container:
           image: archlinux:latest
@@ -15,8 +15,8 @@ jobs:
               run: |
                 pacman -Syyu --noconfirm
                 pacman -S git --noconfirm
-                pacman -S ldc --noconfirm
-                pacman -S gtkd gobject-introspection gir-to-d --noconfirm
+                pacman -S ldc dub --noconfirm
+                pacman -S gtkd gobject-introspection --noconfirm
                 pacman -S evince --noconfirm
             
             - name: Clone EvinceD
@@ -25,7 +25,12 @@ jobs:
             - name: Generate EvinceD
               run: |
                 rm -rf source/*
-                output=$(girtod --use-runtime-linker --print-free)
+                git clone https://github.com/gtkd-developers/gir-to-d
+                cd gir-to-d
+                dub build
+                cd ..
+                output=$(gir-to-d/girtod --use-runtime-linker --print-free)
+                rm -rf gir-to-d
                 
                 # Check if all no parent function are generate
                 if [ "${output}" != "copying file [evince] to [source/evince]" ]; then false; fi
