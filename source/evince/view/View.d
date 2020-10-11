@@ -463,7 +463,7 @@ public class View : Container, ScrollableIF
 	}
 
 	/** */
-	gulong addOnHandleLink(void delegate(ObjectG, View) dlg, ConnectFlags connectFlags=cast(ConnectFlags)0)
+	gulong addOnHandleLink(void delegate(int, ObjectG, View) dlg, ConnectFlags connectFlags=cast(ConnectFlags)0)
 	{
 		return Signals.connect(this, "handle-link", dlg, connectFlags ^ ConnectFlags.SWAPPED);
 	}

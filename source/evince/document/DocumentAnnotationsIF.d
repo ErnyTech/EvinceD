@@ -64,6 +64,9 @@ public interface DocumentAnnotationsIF{
 	public MappingList getAnnotations(Page page);
 
 	/** */
+	public EvAnnotationsOverMarkup overMarkup(Annotation annot, double x, double y);
+
+	/** */
 	public void removeAnnotation(Annotation annot);
 
 	/** */

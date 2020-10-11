@@ -71,6 +71,15 @@ public enum EvAnnotationType
 }
 alias EvAnnotationType AnnotationType;
 
+public enum EvAnnotationsOverMarkup
+{
+	NOT_IMPLEMENTED = 0,
+	UNKNOWN = 1,
+	YES = 2,
+	NOT = 3,
+}
+alias EvAnnotationsOverMarkup AnnotationsOverMarkup;
+
 public enum EvAnnotationsSaveMask
 {
 	NONE = 0,
@@ -359,6 +368,8 @@ struct EvDocumentAnnotationsInterface
 	extern(C) void function(EvDocumentAnnotations* documentAnnots, EvAnnotation* annot, EvAnnotationsSaveMask mask) saveAnnotation;
 	/** */
 	extern(C) void function(EvDocumentAnnotations* documentAnnots, EvAnnotation* annot) removeAnnotation;
+	/** */
+	extern(C) EvAnnotationsOverMarkup function(EvDocumentAnnotations* documentAnnots, EvAnnotation* annot, double x, double y) overMarkup;
 }
 
 struct EvDocumentAttachments;
@@ -987,12 +998,12 @@ alias EV_MAJOR_VERSION = MAJOR_VERSION;
  * The micro version number of the EV library
  * (e.g. in version 3.1.4 this is 4).
  */
-enum MICRO_VERSION = 6;
+enum MICRO_VERSION = 0;
 alias EV_MICRO_VERSION = MICRO_VERSION;
 
 /**
  * The minor version number of the EV library
  * (e.g. in version 3.1.4 this is 1).
  */
-enum MINOR_VERSION = 36;
+enum MINOR_VERSION = 38;
 alias EV_MINOR_VERSION = MINOR_VERSION;

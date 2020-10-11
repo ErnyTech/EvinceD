@@ -83,6 +83,12 @@ public template DocumentAnnotationsT(TStruct)
 	}
 
 	/** */
+	public EvAnnotationsOverMarkup overMarkup(Annotation annot, double x, double y)
+	{
+		return ev_document_annotations_over_markup(getDocumentAnnotationsStruct(), (annot is null) ? null : annot.getAnnotationStruct(), x, y);
+	}
+
+	/** */
 	public void removeAnnotation(Annotation annot)
 	{
 		ev_document_annotations_remove_annotation(getDocumentAnnotationsStruct(), (annot is null) ? null : annot.getAnnotationStruct());

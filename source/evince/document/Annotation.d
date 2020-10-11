@@ -256,7 +256,7 @@ public class Annotation : ObjectG
 
 	/**
 	 * Set the last modification date of @annot to @utime.  You can
-	 * monitor changes to the last modification date by connectin to the
+	 * monitor changes to the last modification date by connecting to the
 	 * notify::modified sinal on @annot.
 	 * For the time-format used, see ev_document_misc_format_date().
 	 *

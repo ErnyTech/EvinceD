@@ -26,6 +26,7 @@ module evince.document.FormField;
 
 private import evince.document.c.functions;
 public  import evince.document.c.types;
+private import glib.Str;
 private import gobject.ObjectG;
 
 
@@ -63,5 +64,37 @@ public class FormField : ObjectG
 	public static GType getType()
 	{
 		return ev_form_field_get_type();
+	}
+
+	/**
+	 * Gets the alternate ui name of @field. This name is also commonly
+	 * used by pdf producers/readers to show it as a tooltip when @field area
+	 * is hovered by a pointing device (eg. mouse).
+	 *
+	 * Returns: a string.
+	 *
+	 * Since: 3.38
+	 */
+	public string getAlternateName()
+	{
+		auto retStr = ev_form_field_get_alternate_name(evFormField);
+
+		scope(exit) Str.freeString(retStr);
+		return Str.toString(retStr);
+	}
+
+	/**
+	 * Sets the alternate ui name of @field. This name is also commonly
+	 * used by pdf producers/readers to show it as a tooltip when @field area
+	 * is hovered by a pointing device (eg. mouse).
+	 *
+	 * Params:
+	 *     alternativeText = a string with the alternative name of a form field
+	 *
+	 * Since: 3.38
+	 */
+	public void setAlternateName(string alternativeText)
+	{
+		ev_form_field_set_alternate_name(evFormField, Str.toStringz(alternativeText));
 	}
 }

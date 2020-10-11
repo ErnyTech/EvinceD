@@ -37,6 +37,7 @@ private import gdkpixbuf.Pixbuf;
 private import gio.Cancellable;
 private import gio.FileIF;
 private import gio.InputStream;
+private import glib.DateTime;
 private import glib.ErrorG;
 private import glib.GException;
 private import glib.Mutex;
@@ -309,10 +310,41 @@ public class Document : ObjectG
 		return new Mutex(cast(GMutex*) __p);
 	}
 
-	/** */
+	/**
+	 *
+	 *
+	 * Deprecated: use ev_document_misc_format_datetime instead as GTime is
+	 * deprecated because it is not year-2038 safe.
+	 *
+	 * Params:
+	 *     utime = a #GTime
+	 *
+	 * Returns: a locale specific date and time representation.
+	 */
 	public static string miscFormatDate(GTime utime)
 	{
 		auto retStr = ev_document_misc_format_date(utime);
+
+		scope(exit) Str.freeString(retStr);
+		return Str.toString(retStr);
+	}
+
+	/**
+	 * Determine the preferred date and time representation for the current locale
+	 * for @dt.
+	 *
+	 * Params:
+	 *     dt = a #GDateTime
+	 *
+	 * Returns: a new allocated string or NULL in the case
+	 *     that there was an error (such as a format specifier not being supported
+	 *     in the current locale). The string should be freed with g_free().
+	 *
+	 * Since: 3.38
+	 */
+	public static string miscFormatDatetime(DateTime dt)
+	{
+		auto retStr = ev_document_misc_format_datetime((dt is null) ? null : dt.getDateTimeStruct());
 
 		scope(exit) Str.freeString(retStr);
 		return Str.toString(retStr);
@@ -949,7 +981,7 @@ public class Document : ObjectG
 	 * Params:
 	 *     sourceLink = a #EvSourceLink
 	 *
-	 * Returns: An EvMapping with the page number and area corresponfing to
+	 * Returns: An EvMapping with the page number and area corresponding to
 	 *     the given line in the source file. It must be free with g_free when done
 	 */
 	public EvMapping* synctexForwardSearch(SourceLink sourceLink)

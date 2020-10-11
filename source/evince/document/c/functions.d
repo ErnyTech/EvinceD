@@ -134,6 +134,7 @@ shared static this()
 	Linker.link(ev_document_get_doc_mutex, "ev_document_get_doc_mutex", LIBRARY_EVINCEDOCUMENT);
 	Linker.link(ev_document_get_fc_mutex, "ev_document_get_fc_mutex", LIBRARY_EVINCEDOCUMENT);
 	Linker.link(ev_document_misc_format_date, "ev_document_misc_format_date", LIBRARY_EVINCEDOCUMENT);
+	Linker.link(ev_document_misc_format_datetime, "ev_document_misc_format_datetime", LIBRARY_EVINCEDOCUMENT);
 	Linker.link(ev_document_misc_get_loading_thumbnail, "ev_document_misc_get_loading_thumbnail", LIBRARY_EVINCEDOCUMENT);
 	Linker.link(ev_document_misc_get_page_border_size, "ev_document_misc_get_page_border_size", LIBRARY_EVINCEDOCUMENT);
 	Linker.link(ev_document_misc_get_pointer_position, "ev_document_misc_get_pointer_position", LIBRARY_EVINCEDOCUMENT);
@@ -188,6 +189,7 @@ shared static this()
 	Linker.link(ev_document_annotations_can_remove_annotation, "ev_document_annotations_can_remove_annotation", LIBRARY_EVINCEDOCUMENT);
 	Linker.link(ev_document_annotations_document_is_modified, "ev_document_annotations_document_is_modified", LIBRARY_EVINCEDOCUMENT);
 	Linker.link(ev_document_annotations_get_annotations, "ev_document_annotations_get_annotations", LIBRARY_EVINCEDOCUMENT);
+	Linker.link(ev_document_annotations_over_markup, "ev_document_annotations_over_markup", LIBRARY_EVINCEDOCUMENT);
 	Linker.link(ev_document_annotations_remove_annotation, "ev_document_annotations_remove_annotation", LIBRARY_EVINCEDOCUMENT);
 	Linker.link(ev_document_annotations_save_annotation, "ev_document_annotations_save_annotation", LIBRARY_EVINCEDOCUMENT);
 
@@ -317,6 +319,8 @@ shared static this()
 	// evince.document.FormField
 
 	Linker.link(ev_form_field_get_type, "ev_form_field_get_type", LIBRARY_EVINCEDOCUMENT);
+	Linker.link(ev_form_field_get_alternate_name, "ev_form_field_get_alternate_name", LIBRARY_EVINCEDOCUMENT);
+	Linker.link(ev_form_field_set_alternate_name, "ev_form_field_set_alternate_name", LIBRARY_EVINCEDOCUMENT);
 
 	// evince.document.FormFieldButton
 
@@ -597,6 +601,7 @@ __gshared extern(C)
 	GMutex* function() c_ev_document_get_doc_mutex;
 	GMutex* function() c_ev_document_get_fc_mutex;
 	char* function(GTime utime) c_ev_document_misc_format_date;
+	char* function(GDateTime* dt) c_ev_document_misc_format_datetime;
 	GdkPixbuf* function(int width, int height, int invertedColors) c_ev_document_misc_get_loading_thumbnail;
 	void function(int pageWidth, int pageHeight, GtkBorder* border) c_ev_document_misc_get_page_border_size;
 	void function(GtkWidget* widget, int* x, int* y) c_ev_document_misc_get_pointer_position;
@@ -651,6 +656,7 @@ __gshared extern(C)
 	int function(EvDocumentAnnotations* documentAnnots) c_ev_document_annotations_can_remove_annotation;
 	int function(EvDocumentAnnotations* documentAnnots) c_ev_document_annotations_document_is_modified;
 	EvMappingList* function(EvDocumentAnnotations* documentAnnots, EvPage* page) c_ev_document_annotations_get_annotations;
+	EvAnnotationsOverMarkup function(EvDocumentAnnotations* documentAnnots, EvAnnotation* annot, double x, double y) c_ev_document_annotations_over_markup;
 	void function(EvDocumentAnnotations* documentAnnots, EvAnnotation* annot) c_ev_document_annotations_remove_annotation;
 	void function(EvDocumentAnnotations* documentAnnots, EvAnnotation* annot, EvAnnotationsSaveMask mask) c_ev_document_annotations_save_annotation;
 
@@ -780,6 +786,8 @@ __gshared extern(C)
 	// evince.document.FormField
 
 	GType function() c_ev_form_field_get_type;
+	char* function(EvFormField* field) c_ev_form_field_get_alternate_name;
+	void function(EvFormField* field, char* alternativeText) c_ev_form_field_set_alternate_name;
 
 	// evince.document.FormFieldButton
 
@@ -1058,6 +1066,7 @@ alias c_ev_document_fc_mutex_unlock ev_document_fc_mutex_unlock;
 alias c_ev_document_get_doc_mutex ev_document_get_doc_mutex;
 alias c_ev_document_get_fc_mutex ev_document_get_fc_mutex;
 alias c_ev_document_misc_format_date ev_document_misc_format_date;
+alias c_ev_document_misc_format_datetime ev_document_misc_format_datetime;
 alias c_ev_document_misc_get_loading_thumbnail ev_document_misc_get_loading_thumbnail;
 alias c_ev_document_misc_get_page_border_size ev_document_misc_get_page_border_size;
 alias c_ev_document_misc_get_pointer_position ev_document_misc_get_pointer_position;
@@ -1112,6 +1121,7 @@ alias c_ev_document_annotations_can_add_annotation ev_document_annotations_can_a
 alias c_ev_document_annotations_can_remove_annotation ev_document_annotations_can_remove_annotation;
 alias c_ev_document_annotations_document_is_modified ev_document_annotations_document_is_modified;
 alias c_ev_document_annotations_get_annotations ev_document_annotations_get_annotations;
+alias c_ev_document_annotations_over_markup ev_document_annotations_over_markup;
 alias c_ev_document_annotations_remove_annotation ev_document_annotations_remove_annotation;
 alias c_ev_document_annotations_save_annotation ev_document_annotations_save_annotation;
 
@@ -1241,6 +1251,8 @@ alias c_ev_file_exporter_get_capabilities ev_file_exporter_get_capabilities;
 // evince.document.FormField
 
 alias c_ev_form_field_get_type ev_form_field_get_type;
+alias c_ev_form_field_get_alternate_name ev_form_field_get_alternate_name;
+alias c_ev_form_field_set_alternate_name ev_form_field_set_alternate_name;
 
 // evince.document.FormFieldButton
 
